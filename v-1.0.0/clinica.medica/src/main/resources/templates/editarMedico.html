@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Edição de Médico</title>
+<style>
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: Arial, Helvetica, sans-serif
+}
+
+body {
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: linear-gradient(135deg, #edf3f2 0%, #e4efef 45%, #dbe7ed 100%);
+	color: #2e3940
+}
+
+.container {
+	width: 90%;
+	max-width: 900px;
+	padding: 45px;
+	border-radius: 30px;
+	background: rgba(255, 255, 255, .78);
+	backdrop-filter: blur(10px);
+	border: 1px solid rgba(120, 145, 155, .18);
+	box-shadow: 0 15px 40px rgba(40, 60, 70, .12)
+}
+
+.topo {
+	text-align: center;
+	margin-bottom: 30px
+}
+
+.topo h1 {
+	font-size: 2.3rem;
+	color: #2e5b67
+}
+
+.form {
+	display: grid;
+	gap: 18px
+}
+
+.campo {
+	display: flex;
+	flex-direction: column;
+	gap: 6px
+}
+
+label {
+	font-weight: bold;
+	color: #4f6b73;
+	font-size: .95rem
+}
+
+input {
+	padding: 12px 14px;
+	border-radius: 12px;
+	border: 1px solid #cddadd;
+	background: #f7fbfb;
+	outline: none;
+	transition: .2s
+}
+
+input:focus {
+	border-color: #5d8e8b;
+	box-shadow: 0 0 0 3px rgba(93, 142, 139, .15)
+}
+
+.especialidades {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	gap: 10px;
+	margin-top: 5px
+}
+
+.especialidade-item {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 10px;
+	border: 1px solid #d4e2e3;
+	border-radius: 12px;
+	background: #f7fbfb
+}
+
+.botoes {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 25px
+}
+
+.botao {
+	display: inline-block;
+	text-decoration: none;
+	background: linear-gradient(135deg, #4e7983, #5d8f8a);
+	color: #fff;
+	padding: 12px 22px;
+	border-radius: 14px;
+	font-weight: bold;
+	border: none;
+	cursor: pointer;
+	transition: .25s ease
+}
+
+.botao:hover {
+	transform: scale(1.03);
+	background: linear-gradient(135deg, #446a73, #537f7a)
+}
+
+.voltar {
+	color: #4f6f77;
+	text-decoration: none;
+	font-weight: bold
+}
+
+.voltar:hover {
+	text-decoration: underline
+}
+</style>
+</head>
+<body>
+	<div class="container">
+		<div class="topo">
+			<h1>Edição de Médico</h1>
+		</div>
+		<form th:action="@{/editarMedico}" method="post" class="form">
+			<div class="campo">
+				<label>Nome</label> <input type="text" name="nome"
+					th:value="${medico.nome}" />
+			</div>
+			<div class="campo">
+				<label>Email</label> <input type="email" name="email"
+					th:value="${medico.email}" />
+			</div>
+			<div class="campo">
+				<label>CPF</label> <input type="text" name="cpf"
+					th:value="${medico.cpf}" readonly />
+			</div>
+			<div class="campo">
+				<label>CRM</label> <input type="text" name="crm"
+					th:value="${medico.crm}" />
+			</div>
+			<div class="campo">
+				<label>Especialidades</label>
+				<div class="especialidades">
+					<div class="especialidade-item"
+						th:each="especialidade : ${especialidades}">
+						<input type="checkbox" name="especialidades"
+							th:value="${especialidade.name()}"
+							th:checked="${medico.especialidades.contains(especialidade)}" />
+						<span th:text="${especialidade.descricao}"></span>
+					</div>
+				</div>
+			</div>
+			<div class="botoes">
+				<a class="voltar" href="gestaoMedicos">← Voltar</a>
+				<button type="submit" class="botao">Atualizar</button>
+			</div>
+		</form>
+	</div>
+</body>
+</html>
