@@ -1,0 +1,5 @@
+/home/ivan/Dev/eclipse-workspace/clinica.medica/src/main/java/br/edu/utfpr/td/tsi/clinica/medica/Main.java
+/home/ivan/Dev/eclipse-workspace/clinica.medica/src/main/java/br/edu/utfpr/td/tsi/clinica/medica/controle/MedicoControle.java
+/home/ivan/Dev/eclipse-workspace/clinica.medica/src/main/java/br/edu/utfpr/td/tsi/clinica/medica/dominio/Especialidade.java
+/home/ivan/Dev/eclipse-workspace/clinica.medica/src/main/java/br/edu/utfpr/td/tsi/clinica/medica/dominio/Medico.java
+/home/ivan/Dev/eclipse-workspace/clinica.medica/src/main/java/br/edu/utfpr/td/tsi/clinica/medica/persistencia/BancoDeDados.java

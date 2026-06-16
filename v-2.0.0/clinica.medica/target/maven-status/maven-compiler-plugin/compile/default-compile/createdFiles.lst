@@ -1,0 +1,5 @@
+br/edu/utfpr/td/tsi/clinica/medica/dominio/Medico.class
+br/edu/utfpr/td/tsi/clinica/medica/dominio/Especialidade.class
+br/edu/utfpr/td/tsi/clinica/medica/Main.class
+br/edu/utfpr/td/tsi/clinica/medica/controle/MedicoControle.class
+br/edu/utfpr/td/tsi/clinica/medica/persistencia/BancoDeDados.class
