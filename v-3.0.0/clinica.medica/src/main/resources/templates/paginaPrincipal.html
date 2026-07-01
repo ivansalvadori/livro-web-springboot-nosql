@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Clínica Médica</title>
+
+<style>
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+   font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+   min-height: 100vh;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   background: linear-gradient(135deg, #edf3f2 0%, #e4efef 45%, #dbe7ed 100%);
+   color: #2e3940;
+}
+
+.container {
+   width: 90%;
+   max-width: 520px;
+   padding: 35px;
+   border-radius: 25px;
+   background: rgba(255,255,255,.78);
+   backdrop-filter: blur(10px);
+   border: 1px solid rgba(120,145,155,.18);
+   box-shadow: 0 15px 40px rgba(40,60,70,.12);
+}
+
+.topo {
+   text-align: center;
+   margin-bottom: 30px;
+}
+
+.topo h1 {
+   font-size: 2.2rem;
+   color: #2e5b67;
+}
+
+.topo p {
+   margin-top: 8px;
+   color: #66777d;
+   font-size: .95rem;
+}
+
+.menu {
+   display: flex;
+   flex-direction: column;
+   gap: 12px;
+}
+
+.item {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   padding: 14px 18px;
+   border-radius: 16px;
+   background: linear-gradient(145deg, #f7fbfb, #edf4f5);
+   border: 1px solid #d4e2e3;
+   transition: .25s;
+}
+
+.item:hover {
+   transform: translateY(-2px);
+   box-shadow: 0 8px 18px rgba(40,60,70,.10);
+}
+
+.nome {
+   display: flex;
+   align-items: center;
+   gap: 12px;
+   color: #355b66;
+   font-weight: bold;
+}
+
+.icone {
+   width: 38px;
+   height: 38px;
+   border-radius: 12px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   background: linear-gradient(135deg, #4e7480, #5d8e8b);
+   color: white;
+   font-size: 1.1rem;
+}
+
+.botao {
+   text-decoration: none;
+   background: linear-gradient(135deg, #4e7983, #5d8f8a);
+   color: white;
+   padding: 8px 16px;
+   border-radius: 10px;
+   font-size: .85rem;
+   font-weight: bold;
+}
+
+.botao:hover {
+   opacity: .9;
+}
+
+.rodape {
+   margin-top: 25px;
+   text-align: center;
+   color: #7b8c92;
+   font-size: .85rem;
+}
+
+@media(max-width:600px) {
+   .container {
+      padding: 25px;
+   }
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+   <div class="topo">
+      <h1>Clínica Médica</h1>
+      <p>Gestão de médicos e pacientes</p>
+   </div>
+
+   <div class="menu">
+
+      <div class="item">
+         <div class="nome">
+            <div class="icone">⚕</div>
+            Médicos
+         </div>
+
+         <a class="botao" href="cadastrarMedico">
+            Cadastrar
+         </a>
+      </div>
+
+      <div class="item">
+         <div class="nome">
+            <div class="icone">⌘</div>
+            Médicos
+         </div>
+
+         <a class="botao" href="listarTodosMedicos">
+            Listar
+         </a>
+      </div>
+
+      <div class="item">
+         <div class="nome">
+            <div class="icone">🧑</div>
+            Pacientes
+         </div>
+
+         <a class="botao" href="cadastrarPaciente">
+            Cadastrar
+         </a>
+      </div>
+
+      <div class="item">
+         <div class="nome">
+            <div class="icone">📋</div>
+            Pacientes
+         </div>
+
+         <a class="botao" href="listarTodosPacientes">
+            Listar
+         </a>
+      </div>
+      
+      <div class="item">
+   		<div class="nome">
+     	 <div class="icone">📄 </div>
+      		Pacientes (Paginado)
+   	</div>
+	
+   <a class="botao" href="listarTodosPacientesPaginacao?pagina=0&tamanho=10">
+      Listar
+   </a>
+</div>
+
+   </div>
+
+   <div class="rodape">
+      Sistema Clínico • Gestão Médica
+   </div>
+
+</div>
+
+</body>
+</html>

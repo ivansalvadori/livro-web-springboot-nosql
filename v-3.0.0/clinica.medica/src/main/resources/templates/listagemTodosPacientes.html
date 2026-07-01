@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Lista de Pacientes</title>
+
+<style>
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: Arial, Helvetica, sans-serif
+}
+
+body {
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: linear-gradient(135deg, #edf3f2 0%, #e4efef 45%, #dbe7ed 100%);
+	color: #2e3940
+}
+
+.container {
+	width: 95%;
+	max-width: 1200px;
+	padding: 45px;
+	border-radius: 30px;
+	background: rgba(255, 255, 255, .78);
+	backdrop-filter: blur(10px);
+	border: 1px solid rgba(120, 145, 155, .18);
+	box-shadow: 0 15px 40px rgba(40, 60, 70, .12)
+}
+
+.topo {
+	text-align: center;
+	margin-bottom: 20px
+}
+
+.topo h1 {
+	font-size: 2.4rem;
+	color: #2e5b67;
+	margin-bottom: 10px
+}
+
+.busca {
+	margin-bottom: 25px;
+}
+
+.busca form {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+}
+
+.busca input {
+	flex: 1;
+	padding: 12px 14px;
+	border: 1px solid #cddbdd;
+	border-radius: 12px;
+	background: #fff;
+	font-size: .95rem;
+}
+
+.busca button {
+	padding: 12px 18px;
+	border: none;
+	border-radius: 12px;
+	background: #4e7983;
+	color: white;
+	cursor: pointer;
+	font-weight: bold;
+}
+
+.busca button:hover {
+	opacity: .9;
+}
+
+.busca a {
+	text-decoration: none;
+	color: #4e7983;
+	font-weight: bold;
+}
+
+.table-wrap {
+	overflow-x: auto
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	background: #f7fbfb;
+	border-radius: 16px;
+	overflow: hidden
+}
+
+thead {
+	background: linear-gradient(135deg, #4e7983, #5d8f8a);
+	color: #fff
+}
+
+th, td {
+	padding: 14px 12px;
+	text-align: left;
+	border-bottom: 1px solid #d4e2e3;
+	font-size: .95rem
+}
+
+tbody tr:hover {
+	background: #eef6f6
+}
+
+.actions a {
+	color: #4e7983;
+	font-weight: bold;
+	text-decoration: none;
+	margin-right: 10px
+}
+
+.actions a:hover {
+	text-decoration: underline
+}
+
+.botoes {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 25px
+}
+
+.voltar {
+	color: #4f6f77;
+	text-decoration: none;
+	font-weight: bold
+}
+
+.voltar:hover {
+	text-decoration: underline
+}
+
+.badge {
+	display: inline-block;
+	padding: 4px 10px;
+	border-radius: 12px;
+	background: #e6f0ef;
+	color: #355b66;
+	font-size: .8rem;
+	margin: 2px 4px
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+	<div class="topo">
+		<h1>Lista de Pacientes</h1>
+	</div>
+
+	<!-- BUSCA -->
+	<div class="busca">
+		<form th:action="@{/buscarPacientePorEmailOuCpf}" method="get">
+			<input type="text"
+				   name="termo"
+				   th:value="${termo}"
+				   placeholder="Pesquisar por CPF ou e-mail">
+
+			<button type="submit">Pesquisar</button>
+
+			<a th:href="@{/listarTodosPacientes}">
+				Limpar
+			</a>
+		</form>
+	</div>
+
+	<div class="table-wrap">
+		<table>
+			<thead>
+				<tr>
+					<th>Nome</th>
+					<th>Email</th>
+					<th>CPF</th>
+					<th>Data Nascimento</th>
+					<th>Telefone</th>
+					<th>Endereço</th>
+					<th>Ações</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr th:each="paciente : ${pacientes}">
+					<td th:text="${paciente.nome}"></td>
+					<td th:text="${paciente.email}"></td>
+					<td th:text="${paciente.cpf}"></td>
+					<td th:text="${#temporals.format(paciente.dataNascimento, 'dd/MM/yyyy')}"></td>
+					<td th:text="${paciente.telefoneContato}"></td>
+
+					<td>
+						<span class="badge"
+							th:text="${paciente.endereco.cidade}"
+							th:title="'Estado: ' + ${paciente.endereco.estado} + '&#10;' +
+									  'Logradouro: ' + ${paciente.endereco.logradouro} + '&#10;' +
+									  'Número: ' + ${paciente.endereco.numero} + '&#10;' +
+									  'Complemento: ' + ${paciente.endereco.complemento}">
+						</span>
+					</td>
+
+					<td class="actions">
+						<a th:href="@{/editarPaciente(id=${paciente.id})}">
+							Editar
+						</a>
+
+						<a th:href="@{/removerPaciente(id=${paciente.id})}"
+						   onclick="return confirm('Confirma a remoção?')">
+							Remover
+						</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div class="botoes">
+		<a class="voltar" href="paginaPrincipal">
+			← Voltar
+		</a>
+	</div>
+
+</div>
+</body>
+</html>

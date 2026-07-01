@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Lista de Pacientes</title>
+
+<style>
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: linear-gradient(135deg, #edf3f2 0%, #e4efef 45%, #dbe7ed 100%);
+	color: #2e3940;
+}
+
+.container {
+	width: 95%;
+	max-width: 1200px;
+	padding: 45px;
+	border-radius: 30px;
+	background: rgba(255,255,255,.78);
+	backdrop-filter: blur(10px);
+	border: 1px solid rgba(120,145,155,.18);
+	box-shadow: 0 15px 40px rgba(40,60,70,.12);
+}
+
+.topo {
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+.topo h1 {
+	font-size: 2.4rem;
+	color: #2e5b67;
+}
+
+.table-wrap {
+	overflow-x: auto;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	background: #f7fbfb;
+	border-radius: 16px;
+	overflow: hidden;
+}
+
+thead {
+	background: linear-gradient(135deg, #4e7983, #5d8f8a);
+	color: #fff;
+}
+
+th, td {
+	padding: 14px 12px;
+	text-align: left;
+	border-bottom: 1px solid #d4e2e3;
+	font-size: .95rem;
+}
+
+tbody tr:hover {
+	background: #eef6f6;
+}
+
+.actions a {
+	color: #4e7983;
+	font-weight: bold;
+	text-decoration: none;
+	margin-right: 10px;
+}
+
+.actions a:hover {
+	text-decoration: underline;
+}
+
+.badge {
+	display: inline-block;
+	padding: 4px 10px;
+	border-radius: 12px;
+	background: #e6f0ef;
+	color: #355b66;
+	font-size: .8rem;
+}
+
+.pagination {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 8px;
+	margin-top: 25px;
+}
+
+.pagination a {
+	padding: 9px 14px;
+	border-radius: 10px;
+	background: #4e7983;
+	color: white;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+.pagination a:hover,
+.pagination .ativo {
+	background: #2e5b67;
+}
+
+.info {
+	text-align: center;
+	margin-top: 12px;
+	color: #4f6f77;
+	font-size: .9rem;
+}
+
+.botoes {
+	margin-top: 25px;
+}
+
+.voltar {
+	color: #4f6f77;
+	text-decoration: none;
+	font-weight: bold;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+	<div class="topo">
+		<h1>Lista Paginada de Pacientes</h1>
+	</div>
+
+	<div class="table-wrap">
+
+		<table>
+
+			<thead>
+				<tr>
+					<th>Nome</th>
+					<th>Email</th>
+					<th>CPF</th>
+					<th>Data Nascimento</th>
+					<th>Telefone</th>
+					<th>Endereço</th>
+					<th>Ações</th>
+				</tr>
+			</thead>
+
+			<tbody>
+
+				<tr th:each="paciente : ${pacientes.content}">
+
+					<td th:text="${paciente.nome}"></td>
+					<td th:text="${paciente.email}"></td>
+					<td th:text="${paciente.cpf}"></td>
+					<td th:text="${#temporals.format(paciente.dataNascimento,'dd/MM/yyyy')}"></td>
+					<td th:text="${paciente.telefoneContato}"></td>
+
+					<td>
+						<span class="badge"
+							th:text="${paciente.endereco.cidade}"
+							th:title="'Estado: ' + ${paciente.endereco.estado} + '&#10;' +
+							'Logradouro: ' + ${paciente.endereco.logradouro} + '&#10;' +
+							'Número: ' + ${paciente.endereco.numero} + '&#10;' +
+							'Complemento: ' + ${paciente.endereco.complemento}">
+						</span>
+					</td>
+
+					<td class="actions">
+
+						<a th:href="@{/editarPaciente(id=${paciente.id})}">
+							Editar
+						</a>
+
+						<a th:href="@{/removerPaciente(id=${paciente.id})}"
+						   onclick="return confirm('Confirma a remoção?')">
+							Remover
+						</a>
+
+					</td>
+
+				</tr>
+
+			</tbody>
+
+		</table>
+
+	</div>
+
+
+	<div class="pagination">
+
+		<a th:if="${pacientes.hasPrevious()}"
+		   th:href="@{/listarTodosPacientesPaginacaoMongo(pagina=${pacientes.number - 1}, tamanho=${pacientes.size})}">
+			←
+		</a>
+
+
+		<span th:each="i : ${#numbers.sequence(0, pacientes.totalPages - 1)}">
+
+			<a th:href="@{/listarTodosPacientesPaginacaoMongo(pagina=${i}, tamanho=${pacientes.size})}"
+			   th:text="${i + 1}"
+			   th:classappend="${i == pacientes.number} ? 'ativo'">
+			</a>
+
+		</span>
+
+
+		<a th:if="${pacientes.hasNext()}"
+		   th:href="@{/listarTodosPacientesPaginacaoMongo(pagina=${pacientes.number + 1}, tamanho=${pacientes.size})}">
+			→
+		</a>
+
+	</div>
+
+
+	<div class="info">
+
+		Página
+		<span th:text="${pacientes.number + 1}"></span>
+
+		de
+
+		<span th:text="${pacientes.totalPages}"></span>
+
+		|
+
+		Total:
+		<span th:text="${pacientes.totalElements}"></span>
+
+		pacientes
+
+	</div>
+
+
+	<div class="botoes">
+
+		<a class="voltar" href="paginaPrincipal">
+			← Voltar
+		</a>
+
+	</div>
+
+</div>
+
+</body>
+</html>
